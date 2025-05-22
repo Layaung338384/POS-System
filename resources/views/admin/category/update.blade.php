@@ -3,9 +3,8 @@
 @section('content')
     <div class="container-fluid">
         <h1>Category Update</h1>
-    </div>
 
-    <div class="">
+        <div class="">
         <div class="row">
             <div class="col-4 offset-1">
                 <div class="card">
@@ -26,4 +25,8 @@
             </div>
         </div>
     </div>
+
+    </div>
+
+
 @endsection

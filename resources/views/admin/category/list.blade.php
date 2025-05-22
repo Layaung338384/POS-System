@@ -25,7 +25,7 @@
             </div>
             <div class="col-7">
                 `<table class="table table-hover">
-                    <thead class="bg-dark text-white">
+                    <thead class="bg-primary text-white">
                         <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
@@ -47,6 +47,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class=""> {{ $categories->links() }} </div>
             </div>
         </div>
     </div>

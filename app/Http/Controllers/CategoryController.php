@@ -9,7 +9,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class CategoryController extends Controller
 {
     public function list(){
-       $categories = Category::orderBy("created_at",'desc')->get();
+       $categories = Category::orderBy("created_at",'desc')->paginate(5);
         return view("admin.category.list", compact("categories"));
     }
 

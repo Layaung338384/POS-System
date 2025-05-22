@@ -33,11 +33,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route("adminHome") }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Code Lab Studio</div>
+                <div class="sidebar-brand-text mx-3">POS SYSTEM</div>
             </a>
 
             <!-- Divider -->
@@ -45,7 +45,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href=""><i class="fas fa-fw fa-table"></i><span>Dashboard </span></a>
+                <a class="nav-link" href="{{ route('adminHome') }}"><i class="fas fa-fw fa-table"></i><span>Dashboard </span></a>
             </li>
 
             <li class="nav-item">
@@ -108,13 +108,13 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Code Lab</span>
-                                <img class="img-profile rounded-circle" src="">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> {{ auth()->user()->name }} </span>
+                                <img class="img-profile rounded-circle" src="{{ asset( Auth::user()->profile == null ? 'admin/img/undraw_profile.svg' : 'profile/' . Auth::user()->profile ) }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="">
+                                <a class="dropdown-item" href="{{route("accountlist")}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -134,7 +134,7 @@
                                 </a>
 
 
-                                <a class="dropdown-item" href="">
+                                <a class="dropdown-item" href="{{ route("changePasswordPage") }}">
                                     <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
                                     Change Password
                                 </a>
@@ -175,6 +175,18 @@
                 <script src= {{ asset('admin/js/demo/chart-area-demo.js') }} ></script>
                 <script src= {{ asset('admin/js/demo/chart-pie-demo.js') }} ></script>
 
+                <script>
+                    function loadFile(event){
+                        var reader = new FileReader();
+
+                        reader.onload = function(){
+                            var output = document.getElementById('output');
+                            output.src = reader.result;
+                        }
+
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                </script>
 
 </body>
 
