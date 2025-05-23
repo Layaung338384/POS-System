@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col-7">
-                `<table class="table table-hover">
+                <table class="table table-hover">
                     <thead class="bg-primary text-white">
                         <tr>
                         <th scope="col">ID</th>
@@ -38,7 +38,7 @@
                             <tr>
                                 <td> {{ $items->id }} </td>
                                 <td class="text-bold "> {{ $items->name }} </td>
-                               <td>{{ $items->created_at->format('j F Y') }}</td>
+                               <td>{{ $items->created_at->format('j-F-Y') }}</td>
                                 <td>
                                     <a href="{{ route("updatePage", $items->id) }}" class="btn btn-primary">Update</a>
                                     <a href="{{ route('categoryDelete', $items->id) }}" class="btn btn-danger">Delete</a>

@@ -37,7 +37,7 @@
 
                     <div class="row mt-3">
                         <div class="col-2 h5">Role:</div>
-                        <div class="col  text-dark h5"> {{ Auth::user()->role }} </div>
+                        <div class="col  text-danger h5"> {{ Auth::user()->role }} </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-auto mb-2">

@@ -28,7 +28,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get("account",[ProfileController::class,'list'])->name("accountlist");
         Route::get('editPage',[ProfileController::class,'editPage'])->name("editPage");
         Route::post("edit",[ProfileController::class,'edit'])->name("edit");
-    });
+
+        //profile => Manage New Admin
+       Route::group(['middleware' => 'superadmin'], function (){
+            Route::get('newadminPage',[ProfileController::class,'newadminpage'])->name('addNewAdminPage');
+            Route::post("newadmin",[ProfileController::class,'create'])->name('createAdmin');
+
+            //admin list show => delete section
+            Route::get("adminlist",[ProfileController::class,'adminlist'])->name('adminlist');
+            Route::get('adminDelete/{id}',[ProfileController::class,'adminDelete'])->name("admindelete");
+
+            //user list show => delete section
+            Route::get('userlist',[ProfileController::class,'userlist'])->name("userlist");
+       });
+    });;
 
 });
 

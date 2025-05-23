@@ -90,6 +90,74 @@ class ProfileController extends Controller
 
     }
 
+
+    //addNewAdminPage
+    public function newadminpage(){
+        return view("admin.profile.addNewAdmin");
+    }
+
+    //New admin Create
+    public function create(Request $request){
+        $this->checkNewadmnValidation($request);
+        $newadmindata = $this->requestNewAdmin($request);
+
+        User::create($newadmindata);
+        Alert::success('Success!', 'New Admin Create successfully.');
+        return to_route('accountlist');
+    }
+
+    //admin list data and show
+    public function adminlist(){
+
+        $list = User::select( 'id','name','email','phone','role', 'address' , 'provider','created_at')
+            ->whereIn('role',['admin','superadmin'])
+            ->when(request("searchKey"), function($querr){
+                $querr->whereAny(['name','email','phone','provider', 'address'], 'like' , '%' . request('searchKey') . '%');
+            })
+            ->paginate(6);
+
+        return view('admin.profile.adminList', compact('list') );
+    }
+
+    public function userlist(){
+
+        $userList = User::select( 'id','name','email','phone','role', 'address' , 'provider','created_at')
+            ->whereIn('role',['user'])
+            ->when(request("searchUser"), function($hon){
+                $hon->whereAny(['name','email','phone','provider', 'address'], 'like' , '%' . request('searchUser') . '%');
+            })
+            ->paginate(10);
+
+        // $userList = User::select('name','email','phone','role','address','provider','created_at')
+        // ->where('role','user')
+        // ->when(request('searchUser'), function($quen){
+        //     $quen->whereAny(['name','email','phone','provider','address'] , 'like' '%' . request('searchUser') . '%');
+        // })
+        // ->paginate(10);
+
+        //  compact('userList')
+        return view('admin.profile.userList',compact('userList'));
+    }
+
+    //admin list delete
+    public function adminDelete($id){
+        User::find($id)->delete();
+        Alert::success('Success!', 'Admin Delete successfully.');
+        return to_route('accountlist');
+    }
+
+
+    //new admin request
+    private function requestNewAdmin($request){
+        return [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'admin'
+        ];
+    }
+
+    //profile
     private function requestDataProfile($request){
         return [
             'name' => $request->name,
@@ -99,6 +167,17 @@ class ProfileController extends Controller
         ];
     }
 
+    //new admin checkvalidation
+    private function checkNewadmnValidation($request){
+        $request->validate([
+            'name' => 'required|min:3|max:15',
+            'email' => 'required|unique:users,email,',
+            'password' => 'required|min:6',
+            'confirmpassword' => 'required|same:password'
+        ]);
+    }
+
+    //checkprofile
     private function checkProfileValidate($request){
         $request->validate([
             'name' => 'required',
@@ -107,6 +186,7 @@ class ProfileController extends Controller
         ]);
     }
 
+    //checkpwd
     private function checkpwdvalidation($request){
         $request->validate([
             'oldpassword' => 'required',

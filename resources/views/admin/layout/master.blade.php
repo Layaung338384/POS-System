@@ -61,9 +61,13 @@
             </li>
 
 
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
-            </li>
+            @if (Auth::user()->role == 'superadmin'){
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
+                </li>
+            }
+
+            @endif
 
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
@@ -74,7 +78,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href=""><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
+                <a class="nav-link" href="{{route('changePasswordPage')}}"><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
             </li>
 
             <li class="nav-item">
@@ -119,20 +123,26 @@
                                     Profile
                                 </a>
 
-                                <a class="dropdown-item" href="">
+                                @if (Auth::user()->role == 'superadmin')
+                                    <a class="dropdown-item" href="{{route('addNewAdminPage')}}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Add New Admin Account
-                                </a>
-                                <a class="dropdown-item" href="">
-                                    <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Admin List
-                                </a>
+                                    </a>
+                                @endif
 
-                                <a class="dropdown-item" href="">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    User List
-                                </a>
+                                @if(Auth::user()->role == 'superadmin')
+                                    <a class="dropdown-item" href="{{route("adminlist")}}">
+                                        <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Admin List
+                                    </a>
+                                @endif
 
+                                 @if(Auth::user()->role == 'superadmin')
+                                    <a class="dropdown-item" href="{{route('userlist')}}">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        User List
+                                    </a>
+                                @endif
 
                                 <a class="dropdown-item" href="{{ route("changePasswordPage") }}">
                                     <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
