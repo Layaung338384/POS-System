@@ -139,7 +139,7 @@ class ProfileController extends Controller
         return view('admin.profile.userList',compact('userList'));
     }
 
-    //admin list delete
+    //admin and user delete
     public function adminDelete($id){
         User::find($id)->delete();
         Alert::success('Success!', 'Admin Delete successfully.');

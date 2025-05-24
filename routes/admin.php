@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -41,7 +42,27 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
             //user list show => delete section
             Route::get('userlist',[ProfileController::class,'userlist'])->name("userlist");
        });
-    });;
+
+       //product => create => list => details => update => delete
+       Route::group(['prefix' => 'product'],function (){
+
+        //product create section
+        Route::get('CreatePage',[ProductController::class,'create'])->name("productCreatePage");
+        Route::post("Create",[ProductController::class,'productCreate'])->name("productCreate");
+
+
+        //product list and delete section
+        Route::get("list/{amt?}",[ProductController::class,'productList'])->name("productList");
+        Route::get('delete/{id}', [ProductController::class, 'productDelete'])->name('productDelete');
+
+        //product//update section
+        Route::get("update/{id}",[ProductController::class,'updatePage'])->name('productupdatePage');
+        Route::post('update',[ProductController::class,'updateProduct'])->name('updateProduct');
+
+        //product details
+        Route::get("details/{id}",[ProductController::class,'productDetails'])->name('productDetails');
+       });
+    });
 
 });
 

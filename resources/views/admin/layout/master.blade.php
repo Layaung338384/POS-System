@@ -53,19 +53,19 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href=""><i class="fa-solid fa-plus"></i></i><span>Add Products </span></a>
+                <a class="nav-link" href="{{route('productCreatePage')}}"><i class="fa-solid fa-plus"></i></i><span>Add Products </span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href=""><i class="fa-solid fa-layer-group"></i><span>Product List </span></a>
+                <a class="nav-link" href="{{route('productList')}}"><i class="fa-solid fa-layer-group"></i><span>Product List </span></a>
             </li>
 
 
-            @if (Auth::user()->role == 'superadmin'){
+            @if (Auth::user()->role == 'superadmin')
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
                 </li>
-            }
+
 
             @endif
 
