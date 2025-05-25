@@ -31,7 +31,7 @@
                                 </td>
                                 <td class="text-bold"> {{ $products->name }} </td>
                                 <td class="text-bold"> {{ $products->price }} </td>
-                                <td class="text-bold">
+                                <td class="text-bold col-2">
                                     <button type="button" class="btn btn-secondary position-relative">
                                         {{ $products->stock }}
                                         @if ($products->stock <= 5)

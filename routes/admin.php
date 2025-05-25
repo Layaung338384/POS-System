@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
             //user list show => delete section
             Route::get('userlist',[ProfileController::class,'userlist'])->name("userlist");
        });
-
+ 
        //product => create => list => details => update => delete
        Route::group(['prefix' => 'product'],function (){
 

@@ -70,13 +70,21 @@
                             <i class="fa-solid fa-list-check fa-2x"></i>
                         </a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle my-auto mt-2" data-bs-toggle="dropdown">
-                                <img src=" " style="width: 50px" class="img-profile  rounded-circle" alt="">
-                                <span></span>
-                            </a>
+                            {{-- <a href="#" class="nav-link dropdown-toggle my-auto mt-2" data-bs-toggle="dropdown">
+                                <img src="{{ asset(Auth::user()->profile == null ? 'user/img/avatar.jpg' : 'UserProfile/' . Auth::user()->profile) }}" style="width: 50px;" class="img-profile  roundedf" alt="">
+                            </a> --}}
+
+                            <img src="{{ asset(Auth::user()->profile == null ? 'user/img/avatar.jpg' : 'UserProfile/' . Auth::user()->profile) }}"
+                                style="width:50px; height:50px; object-fit:cover; border-radius:50%; display:block;"
+                                alt=""
+                                >
+
+
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="#" class="dropdown-item my-2">Edit Profile</a>
-                                <a href="#" class="dropdown-item my-2">Change Password</a>
+                                <a href="{{route("profileList")}}" class="text-center dropdown-item my-2">Edit Profile</a>
+                                @if (Auth::user()->provider == 'simple')
+                                    <a href="{{route('changePwdPage')}}" class="dropdown-item my-2">Change Password</a>
+                                @endif
                                 <a href="#" class="dropdown-item my-2">
                                     <form action="{{ route('logout') }}" method="post">
                                         @csrf
@@ -96,6 +104,7 @@
 
 
     @yield('content')
+    @include('sweetalert::alert')
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
@@ -215,5 +224,14 @@
     <script src=  {{ asset('user/lib/lightbox/js/lightbox.min.s') }}></script>
     <script src=  {{ asset('user/lib/owlcarousel/owl.carousel.min.js') }}></script>
 
+    <script>
+        var loadFile = function(event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src) // Free memory
+            }
+        };
+    </script>
 
 </html>
