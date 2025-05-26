@@ -8,6 +8,7 @@ use App\Http\Controllers\User\ProfileController;
 Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
     Route::get('home', [UserController::class,'home'])->name('userHome');
 
+
     Route::group(['prefix' => 'profile'], function(){
         Route::get("list",[ProfileController::class,'list'])->name("profileList");
         Route::get("updatePage",[ProfileController::class,'updatePage'])->name("profileUpdatePage");

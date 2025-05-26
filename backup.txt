@@ -77,3 +77,32 @@ require __DIR__.'/auth.php';
 
 @endsection
 
+
+
+User Master Blade Profile section
+<div class="nav-item dropdown">
+                            {{-- <a href="#" class="nav-link dropdown-toggle my-auto mt-2" data-bs-toggle="dropdown">
+                                <img src="{{ asset(Auth::user()->profile == null ? 'user/img/avatar.jpg' : 'UserProfile/' . Auth::user()->profile) }}" style="width: 50px;" class="img-profile  roundedf" alt="">
+                            </a> --}}
+
+                            <img src="{{ asset(Auth::user()->profile == null ? 'user/img/avatar.jpg' : 'UserProfile/' . Auth::user()->profile) }}"
+                                style="width:50px; height:50px; object-fit:cover; border-radius:50%; display:block;"
+                                alt=""
+                                >
+                                <a href="" class="my-auto">
+                                    <span> {{Auth::user()->name == null ? Auth::user()->nickname : Auth::user()->name}} </span>
+                                </a>
+                            <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                <a href="{{route("profileList")}}" class="text-center dropdown-item my-2">Edit Profile</a>
+                                @if (Auth::user()->provider == 'simple')
+                                    <a href="{{route('changePwdPage')}}" class="dropdown-item my-2">Change Password</a>
+                                @endif
+                                <a href="#" class="dropdown-item my-2">
+                                    <form action="{{ route('logout') }}" method="post">
+                                        @csrf
+                                        <input type="submit" value="Logout"
+                                            class="btn btn-outline-success rounded w-100 mb-3">
+                                    </form>
+                                </a>
+                            </div>
+                        </div>

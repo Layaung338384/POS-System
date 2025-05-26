@@ -18,8 +18,8 @@ class ProductController extends Controller
 
     //product Create
     public function productCreate(Request $request){
-        $this->checkproductValidation($request);
-        $data = $this->requestData($request,'create');
+        $this->checkproductValidation($request,'create');
+        $data = $this->requestData($request);
 
         // if($request->hasFile("image")){
         //     $fileName = uniqid() . $request->file('image')->getClientOriginalName();

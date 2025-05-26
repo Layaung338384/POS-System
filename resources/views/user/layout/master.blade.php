@@ -56,6 +56,9 @@
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
+                        <a href="{{route('userHome')}}" class="nav-item nav-link @if (Request::route()->getName())
+                            active
+                        @endif">Home</a>
                         <a href="" class="nav-item nav-link ">Shop</a>
                         <a href="" class="nav-item nav-link">Cart</a>
                         <a href="#" class="nav-item nav-link">Contact</a>
@@ -69,31 +72,33 @@
                         <a href="" class="position-relative me-4 my-auto">
                             <i class="fa-solid fa-list-check fa-2x"></i>
                         </a>
-                        <div class="nav-item dropdown">
-                            {{-- <a href="#" class="nav-link dropdown-toggle my-auto mt-2" data-bs-toggle="dropdown">
-                                <img src="{{ asset(Auth::user()->profile == null ? 'user/img/avatar.jpg' : 'UserProfile/' . Auth::user()->profile) }}" style="width: 50px;" class="img-profile  roundedf" alt="">
-                            </a> --}}
-
+                        <div class="nav-item dropdown d-flex align-items-center">
+                            {{-- User Image --}}
                             <img src="{{ asset(Auth::user()->profile == null ? 'user/img/avatar.jpg' : 'UserProfile/' . Auth::user()->profile) }}"
-                                style="width:50px; height:50px; object-fit:cover; border-radius:50%; display:block;"
-                                alt=""
-                                >
+                                style="width:50px; height:50px; object-fit:cover; border-radius:50%;" alt="">
 
+                            {{-- User Name --}}
+                                <div class="p-3">
+                                    <span class="text-primary fw-bolder ">{{ Auth::user()->name == null ? Auth::user()->nickname :  Auth::user()->name }}</span>
+                                </div>
 
+                            {{-- Dropdown Menu --}}
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="{{route("profileList")}}" class="text-center dropdown-item my-2">Edit Profile</a>
+                                <a href="{{ route('profileList') }}" class="dropdown-item my-2 text-center">Edit Profile</a>
+
                                 @if (Auth::user()->provider == 'simple')
-                                    <a href="{{route('changePwdPage')}}" class="dropdown-item my-2">Change Password</a>
+                                    <a href="{{ route('changePwdPage') }}" class="dropdown-item my-2">Change Password</a>
                                 @endif
+
                                 <a href="#" class="dropdown-item my-2">
                                     <form action="{{ route('logout') }}" method="post">
                                         @csrf
-                                        <input type="submit" value="Logout"
-                                            class="btn btn-outline-success rounded w-100 mb-3">
+                                        <input type="submit" value="Logout" class="btn btn-outline-success rounded w-100 mb-3">
                                     </form>
                                 </a>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
