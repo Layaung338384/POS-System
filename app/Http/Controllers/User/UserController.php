@@ -26,7 +26,7 @@ class UserController extends Controller
             'products.name',
             'products.price',
             'products.description',
-            'products.image'
+            'products.image' 
         )
         ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
         ->when(request('searchKey'),function($quest){//search product item using searchKey
@@ -50,7 +50,7 @@ class UserController extends Controller
         ->when(request('minPrice') != null && request("maxPrice") == null, function($quest){ // min = true || max = false
             $quest = $quest->where('products.price','>=',request('minPrice'));
         })
-        ->orderBy('products.created_at', 'desc')// check 2 orderBy Keyword 
+        ->orderBy('products.created_at', 'desc')// check 2 orderBy Keyword
         ->get();
 
     return view('user.home.list', compact('Products','categories'));

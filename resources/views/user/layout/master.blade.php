@@ -22,17 +22,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href= {{ asset('user/lib/lightbox/css/lightbox.min.css') }} rel="stylesheet">
-    <link href= {{ asset('user/lib/owlcarousel/assets/owl.carousel.min.css') }} rel="stylesheet">
+    <link href= "{{ asset('user/lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
+    <link href= "{{ asset('user/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href= {{ asset('user/css/bootstrap.min.css') }} rel="stylesheet">
+    <link href="{{ asset('user/css/bootstrap.min.css') }}"  rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href= {{ asset('user/css/style.css') }} rel="stylesheet">
+    <link href="{{ asset('user/css/style.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="{{asset("user/css/custom.css")}}">
 
 </head>
 
@@ -183,7 +183,7 @@
                         <p>Email: Example@gmail.com</p>
                         <p>Phone: +0123 4567 8910</p>
                         <p>Payment Accepted</p>
-                        <img src="img/payment.png" class="img-fluid" alt="">
+                        <img src="{{ asset('user/img/payment.png') }}" class="img-fluid" alt="">
                     </div>
                 </div>
             </div>
@@ -224,10 +224,12 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src=  {{ asset('user/lib/easing/easing.min.js') }} ></script>
-    <script src=  {{ asset('user/lib/waypoints/waypoints.min.js') }} ></script>
-    <script src=  {{ asset('user/lib/lightbox/js/lightbox.min.s') }}></script>
-    <script src=  {{ asset('user/lib/owlcarousel/owl.carousel.min.js') }}></script>
+    <script src="{{ asset('user/lib/easing/easing.min.js') }}" ></script>
+    <script src="{{ asset('user/lib/waypoints/waypoints.min.js') }}" ></script>
+    <script src="{{ asset('user/lib/lightbox/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('user/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+
+    <script src="{{asset('user/js/main.js')}}"></script>
 
     <script>
         var loadFile = function(event) {
@@ -238,5 +240,22 @@
             }
         };
     </script>
+
+{{-- <script>
+    $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: true,
+            dots: false,
+            responsive: {
+                0: { items: 1 },
+                600: { items: 2 },
+                1000: { items: 4 }
+            }
+        });
+    });
+</script> --}}
+
 
 </html>
