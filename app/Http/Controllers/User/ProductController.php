@@ -76,4 +76,20 @@ class ProductController extends Controller
 }
 
 
+    public function cartsDelete(Request $request){
+        // logger(); debug for api
+        $cart_id = $request->cartId;
+        Cart::where('id',$cart_id)->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cart Deleted Successfully'
+        ],200);
+    }
+
+    public function productList(){
+        $productData = Product::get();
+        return response()->json($productData,200);
+    }
+
 }

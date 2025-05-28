@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminController;
@@ -8,6 +9,15 @@ use App\Http\Controllers\Admin\ProfileController;
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('home', [AdminController::class, 'home'])->name('adminHome');
+
+    //payment
+    Route::group(['prefix' => 'payment'],function(){
+        Route::get('paymentPage',[PaymentController::class,'paymentPage'])->name("paymentPage");
+        Route::post("Create",[PaymentController::class,'paymentCreate'])->name('paymentCreate');
+        Route::get('updatePage/{id}',[PaymentController::class,'updatePage'])->name('paymentUpdatePage');
+        Route::post('update',[PaymentController::class,'update'])->name("paymentUpdate");
+        Route::get('delete/{id}',[PaymentController::class,'delete'])->name('paymentDelete');
+    });
 
     //category
     Route::group(['prefix' => 'category'], function(){
@@ -42,7 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
             //user list show => delete section
             Route::get('userlist',[ProfileController::class,'userlist'])->name("userlist");
        });
- 
+
        //product => create => list => details => update => delete
        Route::group(['prefix' => 'product'],function (){
 

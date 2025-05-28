@@ -51,8 +51,9 @@
                                 <p class="mb-0 mt-4 total">{{$items->price * $items->qty}} mmk</p>
                             </td>
                             <td>
-                                <input type="hidden" class="cartId" value="">
                                 <input type="hidden" class="productId" value="">
+                                <input type="hidden" class="cartId" value="{{ $items->carts_id }}">
+
                                 <button class="btn btn-md rounded-circle bg-light border mt-4 btn-remove">
                                     <i class="fa fa-times text-danger"></i>
                                 </button>
@@ -122,17 +123,6 @@
                 finalCirculation();
             });
 
-            // function finalCirculation(){
-            //     $totalAmt = 0;
-
-            //     $('#productTable tbody tr').each(function(index,itmes){
-            //         $totalAmt  += Number($(items).find('.total').text().replace('mmk',''));
-            //     });
-
-            //     $('#subtotal').html(`${$totalAmt} mmk`)
-            //     $('#finalTotal').html(`${$totalAmt + 5000} mmk `)
-            // }
-
             function finalCirculation() {
                 let totalAmt = 0;
 
@@ -146,6 +136,26 @@
                 $('#finalTotal').html(`${totalAmt + 5000} mmk`);
             }
 
+            $('.btn-remove').click(function (){
+                $parentnode = $(this).parents('tr');
+                $cartID = $parentnode.find('.cartId').val();
+
+                $data = {
+                    'cartId' : $cartID
+                };
+
+                $.ajax({
+                    type : 'get',
+                    url : '/user/product/cart/delete',
+                    data : $data ,
+                    dataType : 'json',
+                    success : function(response){
+                        response.status == 'success' ? location.reload() : '';
+                    }
+                });
+
+
+            });
 
 
         });
