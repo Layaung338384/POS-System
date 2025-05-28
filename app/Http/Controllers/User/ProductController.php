@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
@@ -52,12 +53,27 @@ class ProductController extends Controller
         return to_route('userHome');
     }
 
-    //add to card validation
-    // private function checkAddtoCard($request){
-    //     $request->validate([
-    //         'productId' => 'required|exists:products,id',
-    //         'userId' => 'required|exists:users,id',
-    //         'count' => 'required|integer|min:1'
-    //     ]);
-    // }
+    public function addCart() {
+    $cart = Cart::select(
+            'products.id as product_id',
+            'carts.id as carts_id',
+            'products.image',
+            'products.price',
+            'products.name',
+            'carts.qty'
+        )
+        ->leftJoin('products', 'carts.product_id', 'products.id')
+        ->where('carts.user_id', Auth::user()->id)
+        ->get();
+
+        $total = 0;
+
+        foreach($cart as $items){
+            $total += $items->price * $items->qty;
+        }
+
+    return view('user.home.cart', compact('cart','total'));
+}
+
+
 }

@@ -24,6 +24,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
     Route::group(['prefix' => 'product'],function(){
         Route::get("details/{id}",[ProductController::class,'details'])->name("detailsPage");
         Route::post('addToCard',[ProductController::class,'addtoCard'])->name("addtoCard");
+        Route::get('cart',[ProductController::class,'addCart'])->name("addToCart");
     });
 
 });
