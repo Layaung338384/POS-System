@@ -17,6 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <input type="hidden" id="userId" value="{{Auth::user()->id}}">
                         @foreach ($cart as $items)
                             <tr>
                             <th scope="row">
@@ -51,7 +52,7 @@
                                 <p class="mb-0 mt-4 total">{{$items->price * $items->qty}} mmk</p>
                             </td>
                             <td>
-                                <input type="hidden" class="productId" value="">
+                                <input type="hidden" class="productId" value="{{$items->product_id}}">
                                 <input type="hidden" class="cartId" value="{{ $items->carts_id }}">
 
                                 <button class="btn btn-md rounded-circle bg-light border mt-4 btn-remove">
@@ -86,7 +87,7 @@
                             <h5 class="mb-0 ps-4 me-4">Total</h5>
                             <p class="mb-0 pe-4 text-danger" id="finalTotal">{{ $total + 5000 }} mmk</p>
                         </div>
-                        <button id="btn-checkout"
+                        <button id="btn-checkout" @if (count($cart) == 0) disabled @endif
                             class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
                             type="button">Proceed Checkout</button>
                     </div>
@@ -157,6 +158,35 @@
 
             });
 
+            $('#btn-checkout').click(function(){
+                $orderList = [];
+                $userId = $('#userId').val();
+                $orderCode = 'CL-POS-' + Math.floor(Math.random() * 10000000);
+
+                $('#productTable tbody tr').each(function(index, row) {
+                    $productId = $(row).find('.productId').val();
+                    $qty = $(row).find('.qty').val();
+
+                    $orderList.push({
+                        'user_id' : $userId,
+                        'productId' : $productId,
+                        'qty' : $qty,
+                        'orderCode' : $orderCode
+                    });
+                });
+
+                $.ajax({
+                    type : 'get',
+                    url : '/user/cart/tempo',
+                    data : Object.assign({},$orderList),
+                    dataType : 'json',
+                    success : function(res){
+                        if(res.status == 'success'){
+                            location.href = '/user/payment';
+                        }
+                    }
+                });
+            });
 
         });
     </script>

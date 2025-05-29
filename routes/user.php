@@ -10,6 +10,10 @@ use App\Http\Controllers\User\ProfileController;
 Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
     Route::get('home', [UserController::class,'home'])->name('userHome');
 
+    //cart section => payment section
+    Route::get('payment',[ProductController::class,'payment'])->name('paymentPage');
+    Route::get('cart/tempo',[ProductController::class,'cartTempo'])->name('cartTempo');
+
 
     Route::group(['prefix' => 'profile'], function(){
         Route::get("list",[ProfileController::class,'list'])->name("profileList");
@@ -30,6 +34,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
         //api test
         Route::get('listPage',[ProductController::class,'productList']);
     });
+
 });
 
 

@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
@@ -92,4 +93,26 @@ class ProductController extends Controller
         return response()->json($productData,200);
     }
 
+    public function payment(Request $request){
+        return view('user.home.payment');
+    }
+
+    public function cartTempo(Request $request){
+        $orderList = [];
+
+        foreach($request->all() as $items){
+            array_push($orderList,[
+                'user_id' => $items ['user_id'],
+                'product_id' => $items ['productId'],
+                'count' => $items['qty'],
+                'status' => 0,
+                'order_code' => $items['orderCode']
+            ]);
+
+            Session::put('tempoCart',$orderList);
+            return response()->json([
+                'status' => 'success'
+            ],200);
+        }
+    }
 }
