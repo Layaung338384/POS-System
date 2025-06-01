@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\paymentHistory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -93,26 +96,114 @@ class ProductController extends Controller
         return response()->json($productData,200);
     }
 
-    public function payment(Request $request){
-        return view('user.home.payment');
+        public function cartTempo(Request $request)
+    {
+        // Decode JSON data from request
+        $orderList = json_decode($request->orderList, true);
+
+        // Validate the data
+        if (!is_array($orderList)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid order data.'
+            ], 400);
+        }
+
+        // Add status = 0 to each item
+        foreach ($orderList as &$item) {
+            $item['status'] = 0;
+        }
+
+        // Save to session
+        Session::put('tempoCart', $orderList);
+
+        return response()->json([
+            'status' => 'success'
+        ], 200);
     }
 
-    public function cartTempo(Request $request){
-        $orderList = [];
 
-        foreach($request->all() as $items){
-            array_push($orderList,[
-                'user_id' => $items ['user_id'],
-                'product_id' => $items ['productId'],
-                'count' => $items['qty'],
-                'status' => 0,
-                'order_code' => $items['orderCode']
+
+    public function payment(Request $request){
+    $payment = Payment::orderBy("type",'desc')->get();
+    $orderList = Session::get('tempoCart');
+    return view('user.home.payment', compact('payment', 'orderList'));
+    }
+
+
+    public function order(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'payslipImage' => 'required',
+            'payment_type' => 'required'
+        ],);
+
+        //request data and store payment history
+        $paymentHistoryData = [
+            'user_name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'payment_method' => $request->payment_type,
+            'order_code' => $request->orderCode,
+            'total_amt' => $request->totalAmount
+        ];
+
+        if($request->hasFile('payslipImage')){
+            $fileName = uniqid() . '_' . $request->file('payslipImage')->getClientOriginalName();
+            $request->file('payslipImage')->move(public_path('payslip'), $fileName);
+            $paymentHistoryData['payslip_image'] = $fileName;
+        }
+
+        paymentHistory::create($paymentHistoryData);
+
+
+        //user order
+        $orderProduct = Session::get('tempoCart');
+
+        foreach ($orderProduct as $data) {
+            Order::create([
+                'user_id'    => $data['user_id'],
+                'product_id' => $data['productId'],
+                'count'      => $data['qty'],
+                'order_code' => $data['orderCode'],
+                'status'     => $data['status'] ?? 0, // optional: use default 0 if missing
             ]);
 
-            Session::put('tempoCart',$orderList);
-            return response()->json([
-                'status' => 'success'
-            ],200);
+            Cart::where('user_id',$data['user_id'])->where('product_id',$data['productId'])->delete();
         }
+
+        return to_route();
     }
+
+    public function orderlist(){
+        $order = Order::where('user_id',Auth::user()->id)
+        ->groupBy('order_code')->get();
+        return view('user.home.orderList',compact('order'));
+    }
+
 }
+
+
+// public function cartTempo(Request $request){
+//         $orderList = [];
+
+//         // foreach($request->all() as $items){
+//             // array_push($orderList,[
+//             //     'user_id' => $items ['user_id'],
+//             //     'product_id' => $items ['productId'],
+//             //     'count' => $items['qty'],
+//             //     'status' => 0,
+//             //     'order_code' => $items['orderCode'],
+//             //     'totalAmount' => $items['totalAmount']
+//             // ]);
+
+//             $orderList = json_decode($request->orderList, true);
+
+//             Session::put('tempoCart',$orderList);
+//             return response()->json([
+//                 'status' => 'success'
+//             ],200);
+//         }
+//     }

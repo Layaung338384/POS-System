@@ -14,6 +14,11 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
     Route::get('payment',[ProductController::class,'payment'])->name('paymentPage');
     Route::get('cart/tempo',[ProductController::class,'cartTempo'])->name('cartTempo');
 
+    Route::group(['prefix' => 'order'],function(){
+        Route::post('order',[ProductController::class,'order'])->name('productOrder');
+        Route::get('orderList',[ProductController::class,'orderlist'])->name('orderListPage');
+    });
+
 
     Route::group(['prefix' => 'profile'], function(){
         Route::get("list",[ProfileController::class,'list'])->name("profileList");

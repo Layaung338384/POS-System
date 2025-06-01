@@ -162,6 +162,7 @@
                 $orderList = [];
                 $userId = $('#userId').val();
                 $orderCode = 'CL-POS-' + Math.floor(Math.random() * 10000000);
+                $totalAmount = $('#finalTotal').text().replace('mmk','') * 1;
 
                 $('#productTable tbody tr').each(function(index, row) {
                     $productId = $(row).find('.productId').val();
@@ -171,14 +172,17 @@
                         'user_id' : $userId,
                         'productId' : $productId,
                         'qty' : $qty,
-                        'orderCode' : $orderCode
+                        'orderCode' : $orderCode,
+                        'totalAmount' : $totalAmount
                     });
                 });
+
+                // console.log($orderList);
 
                 $.ajax({
                     type : 'get',
                     url : '/user/cart/tempo',
-                    data : Object.assign({},$orderList),
+                    data : { orderList: JSON.stringify($orderList) },
                     dataType : 'json',
                     success : function(res){
                         if(res.status == 'success'){

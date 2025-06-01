@@ -63,7 +63,7 @@
 
             @if (Auth::user()->role == 'superadmin')
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('paymentPage')}}"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
+                    <a class="nav-link" href=" {{ route('payment') }} "><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
                 </li>
 
 
@@ -166,7 +166,7 @@
 
 
                 <!-- Bootstrap core JavaScript-->
-                <script src="'admin/vendor/jquery/jquery.min.js'"></script>
+                <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
                     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                     crossorigin="anonymous" referrerpolicy="no-referrer"></script>

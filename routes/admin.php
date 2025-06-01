@@ -12,12 +12,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     //payment
     Route::group(['prefix' => 'payment'],function(){
-        Route::get('paymentPage',[PaymentController::class,'paymentPage'])->name("paymentPage");
+        Route::get('paymentPage',[PaymentController::class,'paymentPage'])->name("payment");
         Route::post("Create",[PaymentController::class,'paymentCreate'])->name('paymentCreate');
         Route::get('updatePage/{id}',[PaymentController::class,'updatePage'])->name('paymentUpdatePage');
         Route::post('update',[PaymentController::class,'update'])->name("paymentUpdate");
         Route::get('delete/{id}',[PaymentController::class,'delete'])->name('paymentDelete');
     });
+
+    
 
     //category
     Route::group(['prefix' => 'category'], function(){

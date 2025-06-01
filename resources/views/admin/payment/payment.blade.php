@@ -7,7 +7,7 @@
 
     <div class="">
         <div class="row">
-            <div class="col-4 offset-1">
+            <div class="col-4">
                 <div class="card">
                     <div class="card-body mb-3 shadow">
                         <form action="{{route('paymentCreate')}}" method="POST">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-7">
+            <div class="col-6">
                 <table class="table table-hover">
                     <thead class="bg-primary text-white">
                         <tr>
@@ -55,10 +55,10 @@
                                 <td class="text-bold "> {{ $items->account_number }} </td>
                                 <td class="text-bold "> {{ $items->account_name }} </td>
                                <td>{{ $items->created_at->format('j-F-Y') }}</td>
-                                <td>
-                                    <a href="{{route('paymentUpdatePage',$items->id)}}" class="btn btn-primary">Update</a>
-                                    <a href="{{route('paymentDelete',$items->id)}}" class="btn btn-danger">Delete</a>
-                                </td>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <a href="{{ route('paymentUpdatePage', $items->id) }}" class="btn me-2 btn-sm btn-primary">Update</a>
+                                        <a href="{{ route('paymentDelete', $items->id) }}" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
                             </tr>
                         @endforeach
                     </tbody>
