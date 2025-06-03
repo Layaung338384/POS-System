@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -19,7 +20,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('delete/{id}',[PaymentController::class,'delete'])->name('paymentDelete');
     });
 
-    
+    //order
+    Route::group(['prefix' => 'order'],function(){
+        Route::get('orderlist',[OrderController::class,'orderListPage'])->name('adminorderListPage');
+        Route::get('orderDetails/{order_code}',[OrderController::class,'details'])->name('AdminOrdeDetails');
+        Route::get('changeStatus',[OrderController::class,'changeStatus']);
+        Route::get('confirm',[OrderController::class,'confirm'])->name('AdminOrderConfirm');
+        Route::get('rejectOrder',[OrderController::class,'reject'])->name('AdminOrderReject');
+    });
 
     //category
     Route::group(['prefix' => 'category'], function(){

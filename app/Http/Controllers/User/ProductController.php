@@ -53,7 +53,7 @@ class ProductController extends Controller
             'qty' => $request->count
         ]);
 
-         Alert::success('Success!', 'Add to Card successfully.');
+        Alert::success('Success!', 'Add to Card successfully.');
         return to_route('userHome');
     }
 
@@ -174,7 +174,9 @@ class ProductController extends Controller
             Cart::where('user_id',$data['user_id'])->where('product_id',$data['productId'])->delete();
         }
 
-        return to_route();
+        Alert::success('Success!', 'Order successfully!');
+        return to_route('orderListPage');
+
     }
 
     public function orderlist(){

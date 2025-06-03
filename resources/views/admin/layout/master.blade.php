@@ -74,7 +74,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href=""><i class="fa-solid fa-cart-shopping"></i><span>Order Board </span></a>
+                <a class="nav-link" href="{{route('adminorderListPage')}}"><i class="fa-solid fa-cart-shopping"></i><span>Order Board </span></a>
             </li>
 
             <li class="nav-item">
@@ -165,8 +165,9 @@
                 @include('sweetalert::alert')
 
 
+
                 <!-- Bootstrap core JavaScript-->
-                <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
+                {{-- <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script> --}}
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
                     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -184,6 +185,7 @@
                 <!-- Page level custom scripts -->
                 <script src= {{ asset('admin/js/demo/chart-area-demo.js') }} ></script>
                 <script src= {{ asset('admin/js/demo/chart-pie-demo.js') }} ></script>
+                @yield('statusChange')
 
                 <script>
                     function loadFile(event){
