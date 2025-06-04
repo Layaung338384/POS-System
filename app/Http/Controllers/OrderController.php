@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -93,5 +94,50 @@ class OrderController extends Controller
         ], 200);
     }
 
+    public function saleInfo()
+{
+    $saleInfo = Order::select(
+                        'orders.order_code',
+                        'orders.status as Status',
+                        'orders.created_at as createdAt',
+                        'users.name as userName',
+                        'products.name as productName',
+                        'payment_histories.total_amt as totalAmount'
+                    )
+                    ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+                    ->leftJoin('products', 'orders.product_id', '=', 'products.id')
+                    ->leftJoin('payment_histories', 'orders.order_code', '=', 'payment_histories.order_code')
+                    ->when(request("searchKey"), function($querr){
+                        $querr->whereAny(['orders.order_code','users.name','products.name'], 'like' , '%' . request('searchKey') . '%');
+                    })
+                    ->where('orders.status', 1)
+                    ->groupBy('orders.order_code')
+                    ->orderBy('orders.created_at', 'desc')
+                    ->paginate(10);
+
+    return view("admin.saleInfo.saleifomation", compact('saleInfo'));
+}
+
+
+
+
+
+
+
+
+    // public function saleInfo(){
+    //     $saleInfo = Order::select('orders.order_code','orders.status as Status','orders.created_at as createdAt','users.name as userName',
+    //                 'products.name as productName','payment_histories.total_amt as totalAmount')
+    //                 ->leftJoin('users','orders.user_id','users.id')
+    //                 ->leftJoin('products','orders.product_id','products.id')
+    //                 ->leftJoin('payment_histories','orders.order_code','payment_histories.orders_code')
+    //                 ->orderBy('created_at','desc')
+    //                 ->groupBy('orders.order_code')
+    //                 ->where('orders.status',1)
+    //                 ->get();
+
+    //     dd($saleInfo);
+    //     return view("admin.saleInfo.saleifomation",compact($saleInfo));
+    // }
 
 }

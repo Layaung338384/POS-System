@@ -61,7 +61,7 @@
                         @endif">Home</a>
                         <a href="" class="nav-item nav-link ">Shop</a>
                         <a href="" class="nav-item nav-link">Cart</a>
-                        <a href="#" class="nav-item nav-link">Contact</a>
+                        <a href="{{ route('contactPage') }}" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="d-flex m-3 me-0">
 

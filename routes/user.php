@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\ProfileController;
@@ -19,6 +20,14 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
         Route::get('orderList',[ProductController::class,'orderlist'])->name('orderListPage');
     });
 
+    Route::group(['prefix' => 'comments'],function(){
+        Route::post("comments",[ProductController::class,'comment'])->name('comments');
+    });
+
+    Route::group(['prefix' => 'contact'],function(){
+        Route::get('contactPage',[ContactController::class,'contactPage'])->name('contactPage');
+        Route::post('contact',[ContactController::class,'contact'])->name('contact');
+    });
 
     Route::group(['prefix' => 'profile'], function(){
         Route::get("list",[ProfileController::class,'list'])->name("profileList");

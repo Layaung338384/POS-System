@@ -80,7 +80,7 @@
                                     <tr>
                                         <th class="col-2">Image</th>
                                         <th>Name</th>
-                                        <th>Count</th>
+                                        <th>Order Count</th>
                                         <th>Available Stock</th>
                                         <th>Product Price</th>
                                         <th>Total Price</th>

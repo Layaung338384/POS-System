@@ -70,7 +70,7 @@
             @endif
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
+                <a class="nav-link" href="{{route('saleInfo')}}"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
             </li>
 
             <li class="nav-item">
@@ -78,7 +78,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{route('changePasswordPage')}}"><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
+                <a class="nav-link" href="{{route('cusReport')}}"><i class="fa-solid fa-circle-exclamation"></i><span>Customer Report</span></a>
             </li>
 
             <li class="nav-item">

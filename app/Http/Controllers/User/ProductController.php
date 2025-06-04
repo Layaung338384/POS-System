@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Comment;
 use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class ProductController extends Controller
                 'products.name',
                 'products.price',
                 'products.description',
+                'products.stock as available_stock',
                 'products.image'
             )
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
@@ -42,7 +44,19 @@ class ProductController extends Controller
             ->where('products.id','!=',$products['id'])
             ->get();
 
-        return view('user.home.details', compact('products','productList'));
+        $comments = Comment::select(
+            'comments.message as cmtMessage',
+            'users.name as user_name',
+            'users.profile as user_profile',
+            'users.nickname as user_nickname',
+            'comments.created_at as created_at'
+        )
+        ->leftJoin('users', 'comments.user_id', '=', 'users.id')
+        ->where('comments.product_id', $id)
+        ->orderBy('comments.created_at', 'desc')
+        ->get();
+
+        return view('user.home.details', compact('products','productList','comments'));
     }
 
      public function addtoCard(Request $request){
@@ -185,7 +199,19 @@ class ProductController extends Controller
         return view('user.home.orderList',compact('order'));
     }
 
+    public function comment(Request $request){
+        Comment::create([
+            'product_id' => $request->productId,
+            'message' => $request->comment,
+            'user_id' => Auth::user()->id
+        ]);
+
+        return back();
+    }
+
 }
+
+
 
 
 // public function cartTempo(Request $request){

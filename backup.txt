@@ -106,3 +106,24 @@ User Master Blade Profile section
                                 </a>
                             </div>
                         </div>
+
+
+comments details section
+
+ @foreach ($comments as $cmt_data)
+                                    <div class="d-flex">
+                                        {{-- <img src="{{ asset($cmt_data->user_profile != null ? 'UserProfile/' . $cmt_data->user_profile : 'user/img/avatar.jpg' ) }}" class="img-fluid object-fit-fill rounded-circle p-3" --}}
+                                        <img src="{{ asset($cmt_data->user_profile != null ? 'UserProfile/' . $cmt_data->user_profile : 'user/img/avatar.jpg') }}" class="img-fluid object-fit-fill rounded-circle p-3">
+                                            style="width: 100px; height: 100px;">
+                                        <div class="">
+                                            <p class="" style="font-size: 14px;">
+                                                {{ $cmt_data->created_at->format('j-F-Y h:m') }}
+                                            </p>
+                                            <div class="d-flex justify-content-between">
+                                                <h5> {{$cmt_data->user_name}} </h5>
+                                            </div>
+                                            <p> {{ $cmt_data->cmtMessage }} </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                @endforeach

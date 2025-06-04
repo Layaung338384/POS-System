@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -18,6 +19,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('updatePage/{id}',[PaymentController::class,'updatePage'])->name('paymentUpdatePage');
         Route::post('update',[PaymentController::class,'update'])->name("paymentUpdate");
         Route::get('delete/{id}',[PaymentController::class,'delete'])->name('paymentDelete');
+    });
+
+    Route::group(['prefix' => 'customerReport'],function(){
+        Route::get("cusReport",[ContactController::class,'cusReport'])->name("cusReport");
+        Route::post("showCusReport/{id}", [ContactController::class, 'showCusReport'])->name("showCusReport");
+        Route::get('cusReportDelete/{id}',[ContactController::class,'cusReportDelete'])->name("cusReportDelete");
+    });
+
+    //sale Infromation from order
+    Route::group(['prefix' => 'sale'],function(){
+        Route::get('saleInfromation',[OrderController::class,'saleInfo'])->name('saleInfo');
     });
 
     //order

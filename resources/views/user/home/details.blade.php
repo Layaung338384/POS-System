@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-lg-6">
                             <h4 class="fw-bold"> {{$products->name}} </h4>
-                            <span class="text-danger mb-3">(items left ! )</span>
+                            <span class="text-danger mb-3">( {{ $products->available_stock }} items left ! )</span>
                             <p class="mb-3">Category: {{$products->category_name}} </p>
                             <h5 class="fw-bold mb-3">{{$products->price}} mmk</h5>
                             <div class="d-flex mb-4">
@@ -112,27 +112,33 @@
                             <div class="tab-content mb-5">
                                 <div class="tab-pane active" id="nav-about" role="tabpanel"
                                     aria-labelledby="nav-about-tab">
-                                    <p></p>
+                                    <p> {{ $products->description }} </p>
                                 </div>
                                 <div class="tab-pane" id="nav-mission" role="tabpanel"
                                     aria-labelledby="nav-mission-tab">
 
-
+                                @foreach ($comments as $cmt_data)
                                     <div class="d-flex">
-                                        <img src="" class="img-fluid rounded-circle p-3"
-                                            style="width: 100px; height: 100px;">
+                                        <img src="{{ asset($cmt_data->user_profile != null ? 'UserProfile/' . $cmt_data->user_profile : 'user/img/avatar.jpg') }}" class="img-fluid object-fit-fill rounded-circle p-3" style="width: 100px; height: 100px;">
                                         <div class="">
                                             <p class="" style="font-size: 14px;">
+                                                {{ $cmt_data->created_at->format('j-F-Y h:i A') }}
                                             </p>
                                             <div class="d-flex justify-content-between">
-                                                <h5></h5>
+                                                <h5>
+                                                    @if($cmt_data->user_nickname)
+                                                        {{ $cmt_data->user_nickname }}
+                                                    @else
+                                                        {{ $cmt_data->user_name }}
+                                                    @endif
+                                                </h5>
 
                                             </div>
-                                            <p></p>
+                                            <p>{{ $cmt_data->cmtMessage }}</p>
                                         </div>
                                     </div>
                                     <hr>
-
+                                @endforeach
 
                                 </div>
                                 <div class="tab-pane" id="nav-vision" role="tabpanel">
@@ -146,14 +152,12 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="" method="post">
-
-                            <input type="hidden" name="productId" value="">
+                        <form action="{{route("comments")}}" method="post">
+                            @csrf
+                            <input type="hidden" name="productId" value="{{ $products->id }}">
                             <h4 class="mb-5 fw-bold">
                                 Leave a Comments
-
                             </h4>
-
                             <div class="row g-1">
                                 <div class="col-lg-12">
                                     <div class="border-bottom rounded ">
