@@ -11,29 +11,38 @@
                         <div class="col-lg-6">
                             <div class="border rounded">
                                 <a href="#">
-                                    <img src='{{asset("/product/" . $products->image)}}' class="img-fluid rounded " alt="Image">
+                                    <img src='{{asset("/product/" . $product->image)}}' class="img-fluid rounded " alt="Image">
                                 </a>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <h4 class="fw-bold"> {{$products->name}} </h4>
-                            <span class="text-danger mb-3">( {{ $products->available_stock }} items left ! )</span>
-                            <p class="mb-3">Category: {{$products->category_name}} </p>
-                            <h5 class="fw-bold mb-3">{{$products->price}} mmk</h5>
+                            <h4 class="fw-bold"> {{$product->name}} </h4>
+                            <span class="text-danger mb-3">( {{ $product->available_stock }} items left ! )</span>
+                            <p class="mb-3">Category: {{$product->category_name}} </p>
+                            <h5 class="fw-bold mb-3">{{$product->price}} mmk</h5>
                             <div class="d-flex mb-4">
+                                @php
+                                    $stars = number_format($rating);
+                                @endphp
+                                {{-- {{ $stars }} --}}
                                 <span class=" ">
-                                    {{$products->description}}
+                                    @for ($i = 1 ; $i <= $stars ; $i++)
+                                        <i class="fa fa-star text-secondary"></i>
+                                    @endfor
+                                    @for ($j = $stars+1 ; $j <= 5 ; $j++)
+                                        <i class="fa fa-star"></i>
+                                    @endfor
                                 </span>
                                 <span class=" ms-4">
                                     <i class="fa-solid fa-eye"></i>
                                 </span>
 
                             </div>
-                            <p class="mb-4"></p>
+                            <p class="mb-4">{{$product->description}}</p>
                             <form action="{{route("addtoCard")}}" method="post">
                                 @csrf
                                 <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
-                                <input type="hidden" name="productId" value="{{$products->id}}">
+                                <input type="hidden" name="productId" value="{{$product->id}}">
                                 <div class="input-group quantity mb-5" style="width: 100px;">
                                     <div class="input-group-btn">
                                         <button type="button"
@@ -70,15 +79,37 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="" method="post">
-
+                                        <form action="{{route('ratingProduct')}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                                             <div class="modal-body">
-
-                                                <input type="hidden" name="productId" value="">
-
                                                 <div class="rating-css">
                                                     <div class="star-icon">
+                                                        @if ($user_rating == 0)
+                                                            <input type="radio" value="1" name="productRating" checked id="rating1">
+                                                            <label for="rating1" class="fa fa-star"></label>
+                                                            <input type="radio" value="2" name="productRating" id="rating2">
+                                                            <label for="rating2" class="fa fa-star"></label>
+                                                            <input type="radio" value="3" name="productRating" id="rating3">
+                                                            <label for="rating3" class="fa fa-star"></label>
+                                                            <input type="radio" value="4" name="productRating" id="rating4">
+                                                            <label for="rating4" class="fa fa-star"></label>
+                                                            <input type="radio" value="5" name="productRating" id="rating5">
+                                                            <label for="rating5" class="fa fa-star"></label>
+                                                        @else
+                                                            @php $userRating = number_format($user_rating)  @endphp
 
+                                                            @for ($i = 1 ; $i <= $userRating ; $i++)
+                                                                <input type="radio" value="{{ $i }}" name="productRating" checked id="rating{{ $i }}">
+                                                                <label for="rating{{ $i }}" class="fa fa-star"></label>
+                                                            @endfor
+
+                                                            @for ($j = $userRating+1 ; $j <= 5 ; $j++)
+                                                                <input type="radio" value="{{ $j }}" name="productRating" id="rating{{ $j }}">
+                                                                <label for="rating{{ $j }}" class="fa fa-star"></label>
+                                                            @endfor
+
+                                                        @endif
                                                     </div>
                                                 </div>
 
@@ -104,15 +135,14 @@
                                     <button class="nav-link border-white border-bottom-0" type="button" role="tab"
                                         id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
                                         aria-controls="nav-mission" aria-selected="false">Customer Comments <span
-                                            class=" btn btn-sm btn-secondary rounted shadow-sm"></span>
-
+                                            class=" btn btn-sm btn-secondary rounted shadow-sm"> {{ count($comments) }} </span>
                                     </button>
                                 </div>
                             </nav>
                             <div class="tab-content mb-5">
                                 <div class="tab-pane active" id="nav-about" role="tabpanel"
                                     aria-labelledby="nav-about-tab">
-                                    <p> {{ $products->description }} </p>
+                                    <p> {{ $product->description }} </p>
                                 </div>
                                 <div class="tab-pane" id="nav-mission" role="tabpanel"
                                     aria-labelledby="nav-mission-tab">
@@ -154,7 +184,7 @@
                         </div>
                         <form action="{{route("comments")}}" method="post">
                             @csrf
-                            <input type="hidden" name="productId" value="{{ $products->id }}">
+                            <input type="hidden" name="productId" value="{{ $product->id }}">
                             <h4 class="mb-5 fw-bold">
                                 Leave a Comments
                             </h4>
@@ -189,7 +219,7 @@
 
                 <div class="owl-carousel vegetable-carousel justify-content-center">
                         @foreach ($productList as $item)
-                            @if ($products->id != $item->id)
+                            @if ($product->id != $item->id)
                                 <div class="border border-primary rounded position-relative vesitable-item">
                                 <div class="vesitable-img">
                                     <img src="{{ asset('/product/' . $item->image) }}" style="height: 250px"

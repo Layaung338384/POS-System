@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Rating;
 use App\Models\Comment;
 use App\Models\Payment;
 use App\Models\Product;
@@ -18,18 +19,19 @@ class ProductController extends Controller
 {
     public function details($id)
     {
-        $products = Product::select(
-                'categories.name as category_name',
-                'products.id',
-                'products.name',
-                'products.price',
-                'products.description',
-                'products.stock as available_stock',
-                'products.image'
-            )
-            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-            ->where('products.id', $id)
-            ->first();
+            $product = Product::select(
+            'categories.name as category_name',
+            'products.id',
+            'products.name',
+            'products.price',
+            'products.description',
+            'products.stock as available_stock',
+            'products.image'
+        )
+        ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+        ->where('products.id', $id)
+        ->first();
+
 
         $productList = Product::select(
                 'categories.name as category_name',
@@ -40,8 +42,8 @@ class ProductController extends Controller
                 'products.image'
             )
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-            ->where('categories.name',$products['category_name'])
-            ->where('products.id','!=',$products['id'])
+            ->where('categories.name', $product['category_name'])
+            ->where('products.id', '!=', $product['id'])
             ->get();
 
         $comments = Comment::select(
@@ -56,7 +58,13 @@ class ProductController extends Controller
         ->orderBy('comments.created_at', 'desc')
         ->get();
 
-        return view('user.home.details', compact('products','productList','comments'));
+        $rating = Rating::where('product_id',$id)->avg("count");
+
+        $user_rating = Rating::where('product_id',$id)->where('user_id',Auth::user()->id)->first('count');
+
+        $user_rating = $user_rating == null ? 0 : $user_rating['count'];
+
+        return view('user.home.details', compact('product','productList','comments','rating','user_rating'));
     }
 
      public function addtoCard(Request $request){
