@@ -22,10 +22,6 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
         Route::get('orderList',[ProductController::class,'orderlist'])->name('orderListPage');
     });
 
-    Route::group(['prefix' => 'actionLog'],function(){
-
-    });
-
     //rating
     Route::group(['prefix' => 'rating'],function(){
         Route::post('ratingProduct', [RatingController::class, 'rating'])->name('ratingProduct');
@@ -34,6 +30,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
     //comments section
     Route::group(['prefix' => 'comments'],function(){
         Route::post("comments",[ProductController::class,'comment'])->name('comments');
+        Route::get('commentsDelete/{id}',[ProductController::class,'commentDelete'])->name('commentDelete');
     });
 
     //contact/report to admin

@@ -48,6 +48,8 @@ class ProductController extends Controller
             ->get();
 
         $comments = Comment::select(
+            'comments.id',
+            'comments.user_id',
             'comments.message as cmtMessage',
             'users.name as user_name',
             'users.profile as user_profile',
@@ -223,6 +225,11 @@ class ProductController extends Controller
 
         $this->addActionLog(Auth::user()->id,$request->productId,'comment');
 
+        return back();
+    }
+
+    public function commentDelete($id){
+        Comment::where('id',$id)->delete();
         return back();
     }
 

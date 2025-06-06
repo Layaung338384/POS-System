@@ -162,7 +162,9 @@
                                                         {{ $cmt_data->user_name }}
                                                     @endif
                                                 </h5>
-
+                                                @if ($cmt_data->user_id == Auth::user()->id)
+                                                    <a href="{{ route('commentDelete',$cmt_data->id) }}" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                                                @endif
                                             </div>
                                             <p>{{ $cmt_data->cmtMessage }}</p>
                                         </div>

@@ -47,8 +47,8 @@
 
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="index.html" class="navbar-brand">
-                    <h1 class="text-primary display-6">Fruitables</h1>
+                <a href="{{ route('userHome') }}" class="navbar-brand">
+                    <h1 class="text-primary display-6">POS SYSTEM</h1>
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarCollapse">
@@ -61,7 +61,7 @@
                         @endif">Home</a>
                         <a href="" class="nav-item nav-link ">Shop</a>
                         <a href="" class="nav-item nav-link">Cart</a>
-                        <a href="{{ route('contactPage') }}" class="nav-item nav-link">Contact</a>
+                        <a href="{{ route('contactPage') }}" class="nav-item nav-link">Report</a>
                     </div>
                     <div class="d-flex m-3 me-0">
 
