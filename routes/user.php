@@ -22,6 +22,10 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
         Route::get('orderList',[ProductController::class,'orderlist'])->name('orderListPage');
     });
 
+    Route::group(['prefix' => 'actionLog'],function(){
+
+    });
+
     //rating
     Route::group(['prefix' => 'rating'],function(){
         Route::post('ratingProduct', [RatingController::class, 'rating'])->name('ratingProduct');

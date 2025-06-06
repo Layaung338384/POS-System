@@ -8,6 +8,7 @@ use App\Models\Rating;
 use App\Models\Comment;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\ActionLog;
 use Illuminate\Http\Request;
 use App\Models\paymentHistory;
 use App\Http\Controllers\Controller;
@@ -64,7 +65,11 @@ class ProductController extends Controller
 
         $user_rating = $user_rating == null ? 0 : $user_rating['count'];
 
-        return view('user.home.details', compact('product','productList','comments','rating','user_rating'));
+        $this->addActionLog(Auth::user()->id,$id,'seen');
+
+        $view_count = ActionLog::where("post_id",$id)->where('action','seen')->get();
+
+        return view('user.home.details', compact('product','productList','comments','rating','user_rating','view_count'));
     }
 
      public function addtoCard(Request $request){
@@ -74,6 +79,8 @@ class ProductController extends Controller
             'user_id' => $request->userId,
             'qty' => $request->count
         ]);
+
+        $this->addActionLog(Auth::user()->id,$request->productId,'addtoCart');
 
         Alert::success('Success!', 'Add to Card successfully.');
         return to_route('userHome');
@@ -214,7 +221,18 @@ class ProductController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
+        $this->addActionLog(Auth::user()->id,$request->productId,'comment');
+
         return back();
+    }
+
+    private function addActionLog($userId,$productId,$action){
+        ActionLog::create([
+            //post id is same as product id
+            'user_id' => $userId,
+            'post_id' => $productId,
+            'action' => $action
+        ]);
     }
 
 }

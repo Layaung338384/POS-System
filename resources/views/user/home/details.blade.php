@@ -34,7 +34,7 @@
                                     @endfor
                                 </span>
                                 <span class=" ms-4">
-                                    <i class="fa-solid fa-eye"></i>
+                                    <i class="fa-solid fa-eye"> {{ count($view_count) }} </i>
                                 </span>
 
                             </div>
