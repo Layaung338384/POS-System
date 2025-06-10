@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\indexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialLoginController;
 
@@ -14,7 +15,8 @@ require_once __DIR__.'/user.php';
 //     return view('welcome');
 // });
 
-Route::redirect('/', 'login');
+Route::redirect('/', 'indexPage');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,6 +30,9 @@ Route::middleware('auth')->group(function () {
 
 // Auth routes
 require __DIR__.'/auth.php';
+
+Route::get('indexPage', [indexController::class,'index'])->name("index");
+Route::get('infoPage', [indexController::class,'info'])->name("info");
 
 
 Route::get('/auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('socialLogin');

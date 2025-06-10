@@ -143,7 +143,7 @@ class ProductController extends Controller
         $rules = [
             'name' => 'required|max:30,' . $request->productId,
             'price' => 'required',
-            'stock' => 'required|max:999',
+            'stock' => 'required|max:999|numeric',
             'CategoryId' => 'required',
             'description' => 'required|max:2000',
         ];
