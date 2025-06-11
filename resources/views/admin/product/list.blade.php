@@ -68,7 +68,7 @@
                                             @endif
                                         </button>
                                     </td>
-                                    <td class="text-bold "> {{ $items->category_name }} </td>
+                                    <td class="text-bold "> {{ $items->category->name }} </td>
                                 {{-- <td>{{ $items->created_at->format('j-F-Y') }}</td> --}}
                                     <td>
                                         <a href="{{route("productDetails",$items->id)}}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-eye"></i></a>
