@@ -99,10 +99,16 @@
                                                     <p>{{ Str::words($items->description, 5, '...') }}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0"> {{$items->price}} mmk</p>
-                                                        <a href="#"
+                                                        <form action="{{ route("addtoCardV2") }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="userId" value="{{ Auth::user()->id }}">
+                                                            <input type="hidden" name="productId" value="{{$items->id}}">
+                                                            <input type="hidden" name="qty"  value="{{ 1 }}">
+                                                            <button type="submit"
                                                             class="btn border border-secondary rounded-pill px-3 text-primary"><i
                                                                 class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                            cart</a>
+                                                            cart</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

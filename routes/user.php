@@ -55,6 +55,7 @@ Route::group(['prefix' => 'user' , 'middleware' => 'user'], function () {
         Route::get("details/{id}",[ProductController::class,'details'])->name("detailsPage");
         Route::post('addToCard',[ProductController::class,'addtoCard'])->name("addtoCard");
         Route::get('cart',[ProductController::class,'addCart'])->name("addToCart");
+        Route::post('cart/v2',[ProductController::class,'addtoCardV2'])->name("addtoCardV2");
         Route::get('cart/delete',[ProductController::class,'cartsDelete'])->name('cartDelete');
 
         //api test

@@ -84,7 +84,21 @@ class ProductController extends Controller
 
         $this->addActionLog(Auth::user()->id,$request->productId,'addtoCart');
 
-        Alert::success('Success!', 'Add to Card successfully.');
+        Alert::success('Success!', 'Add to Cart successfully.');
+        return to_route('userHome');
+    }
+
+    public function addtoCardV2(Request $request){
+        // $this->checkAddtoCard($request);
+        Cart::create([
+            'product_id' => $request->productId,
+            'user_id' => $request->userId,
+            'qty' => $request->qty
+        ]);
+
+        $this->addActionLog(Auth::user()->id,$request->productId,'addtoCart');
+
+        Alert::success('Success!', 'Add to Cart successfully.');
         return to_route('userHome');
     }
 

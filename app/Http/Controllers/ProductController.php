@@ -42,7 +42,6 @@ class ProductController extends Controller
             Alert::success('Success!', 'Product Created successfully.');
             return back();
         }
-
     }
 
     //product list => search section => low amount data => join database table

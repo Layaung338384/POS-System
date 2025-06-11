@@ -26,7 +26,7 @@ class UserController extends Controller
             'products.name',
             'products.price',
             'products.description',
-            'products.image' 
+            'products.image'
         )
         ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
         ->when(request('searchKey'),function($quest){//search product item using searchKey
@@ -55,5 +55,4 @@ class UserController extends Controller
 
     return view('user.home.list', compact('Products','categories'));
 }
-
 }
